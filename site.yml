@@ -54,7 +54,7 @@
       when: ansible_distribution == "Ubuntu"
 
 
-- hosts: file_servers
+- hosts: fileserver
   become: true
   tasks:
     - name: install samba package
