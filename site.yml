@@ -15,10 +15,10 @@
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
 
-- hosts: servers
+- hosts: servers, server_CENT
   become: true
   tasks:
-  
+
     - name: install apache and php for Ubuntu servers
       tags: apache, apache2, ubuntu
       apt:
@@ -29,12 +29,19 @@
       when: ansible_distribution == "Ubuntu"
 
     - name: install apache and php for CentOS servers
-      tags: apache, apache2, ubuntu
+      tags: apache, apache2, centos
       dnf:
         name:
           - httpd
           - php
         state: latest
+      when: ansible_distribution == "CentOS"
+
+    - name: start httpd (CentOS)
+      tags: apache, centos, httpd
+      service:
+        name: httpd
+        state: started
       when: ansible_distribution == "CentOS"
 
 - hosts: server_CENT
